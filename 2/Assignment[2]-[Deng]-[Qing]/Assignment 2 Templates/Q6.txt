@@ -1,0 +1,3 @@
+Why is O(n^2) faster than O(nlogn) sometimes?
+
+Because big-O notation only deals with the infinite large numbers. but input = 100 is apparently not a large number. The reasons for why when n < 100 O(n^2) performs better than O(nlog) might be some non-algorithm causes such as memory or data allocation, etc.
