@@ -162,8 +162,13 @@ class BinarySearchTree(LinkedBinaryTree):
         @return: the Position that contains value v, or last Position searched.
         '''
         # Task 1
-        self.get_position()
-    
+        first = self._subtree_first_position(p)
+        cur = first
+        after = self.after(cur)
+        while cur != self._subtree_last_position(p) and cur != v and v >= after.element():
+                cur = self.after(cur)
+                after = self.after(cur)
+        return cur
     
     def get_kth_largest(self, k):
         ''' 
@@ -174,7 +179,17 @@ class BinarySearchTree(LinkedBinaryTree):
         @return: Position of kth largest node.
         '''
         # Task 2
-        pass
+        if k < 1:
+            return self.first()
+
+        else:
+            cur = self.last()
+            
+            for i in range(k-1):
+                cur = self.before(cur)
+                if cur == self.first():
+                    return self.first()
+            return cur
     
     def LCA(self, p1, p2):
         ''' 
@@ -187,88 +202,105 @@ class BinarySearchTree(LinkedBinaryTree):
         '''
         
         # Task 3
-        pass
+#        pass
+#        if p2 == self.iterative_search(p1,p2.element()):
+#            return p1
+#        elif p1 == self.iterative_search(p2,p1.element()):
+#            return p2
+#        elif self.parent(p1) == self.parent(p2):
+#            return self.parent(p1)
+#        return self.root()
+        if p2 == self._subtree_search(p1,p2.element()):
+            return p1
+        elif p1 == self._subtree_search(p2,p1.element()):
+            return p2
+        elif self.parent(p1) == self.parent(p2):
+            return self.parent(p1)
+        return self.root()
+
+        
+        
     
 
 
 
 
 
-    #-------------------------- end of Assignment 8 functions --------------------------
+##    -------------------------- end of Assignment 8 functions --------------------------
 
 
-#-------------------------- Flip booleans to enable testing --------------------------
-problem1 = False
-problem2 = False
-problem3 = False
-
-#-------------------------- Problem 1 tests... --------------------------
-if (problem1):
-    bst = BinarySearchTree()
-    bst.insert(10)
-    bst.insert(5)
-    bst.insert(15)
-    bst.insert(2)
-    bst.insert(7)
-    bst.insert(12)
-    bst.insert(18)
-
-    #   10       
-    #  / \   
-    # /   \  
-    # 5   15   
-    #/ \ / \ 
-    #2 7 12 18 
-
-    print("Testing problem 1 iterative_search... searching for 5")
-    print(bst.iterative_search(bst.root(), 5).element(), ", should be 5")  
-    print("Testing problem 1 iterative_search... searching for 12")
-    print(bst.iterative_search(bst.root(), 12).element(), ", should be 12")  
-    print("Testing problem 1 iterative_search... searching for 8")
-    print(bst.iterative_search(bst.root(), 8).element(), ", should be 7")  
-
-#-------------------------- Problem 2 tests... --------------------------
-if (problem2):
-    bst = BinarySearchTree()
-    bst.insert(10)
-    bst.insert(5)
-    bst.insert(15)
-    bst.insert(2)
-    bst.insert(7)
-    bst.insert(12)
-    bst.insert(18)
-    #   10       
-    #  / \   
-    # /   \  
-    # 5   15   
-    #/ \ / \ 
-    #2 7 12 18 
-    print("Testing problem 2 find k-th largest... 3rd largest is")
-    print(bst.get_kth_largest(3).element(), ", should be 12")
-    print("Testing problem 2 find k-th largest... 7th largest is")
-    print(bst.get_kth_largest(7).element(), ", should be 2")
-    print("Testing problem 2 find k-th largest... 9th largest is")
-    print(bst.get_kth_largest(9).element(), ", should be 2")
-
-
-
-if (problem3):
-    bst = BinarySearchTree()
-    bst.insert(10)
-    bst.insert(5)
-    bst.insert(15)
-    bst.insert(3)
-    bst.insert(7)
-    bst.insert(20)
-    bst.insert(6)
-    bst.insert(9)
-
-    pos_6 = bst.get_position(6)
-    pos_9 = bst.get_position(9)
-    pos_7 = bst.get_position(7)
-    pos_3 = bst.get_position(3)
-    pos_20 = bst.get_position(20)
-    print(bst.LCA(pos_6, pos_9).element(), "    Expected result is 7")
-    print(bst.LCA(pos_6, pos_7).element(), "    Expected result is 7")
-    print(bst.LCA(pos_3, pos_20).element(), "    Expected result is 10")
-
+##-------------------------- Flip booleans to enable testing --------------------------
+#problem1 = False
+#problem2 = True
+#problem3 = False
+#
+##-------------------------- Problem 1 tests... --------------------------
+#if (problem1):
+#    bst = BinarySearchTree()
+#    bst.insert(10)
+#    bst.insert(5)
+#    bst.insert(15)
+#    bst.insert(2)
+#    bst.insert(7)
+#    bst.insert(12)
+#    bst.insert(18)
+#
+#    #   10       
+#    #  / \   
+#    # /   \  
+#    # 5   15   
+#    #/ \ / \ 
+#    #2 7 12 18 
+#
+#    print("Testing problem 1 iterative_search... searching for 5")
+#    print(bst.iterative_search(bst.root(), 5).element(), ", should be 5")  
+#    print("Testing problem 1 iterative_search... searching for 12")
+#    print(bst.iterative_search(bst.root(), 12).element(), ", should be 12")  
+#    print("Testing problem 1 iterative_search... searching for 8")
+#    print(bst.iterative_search(bst.root(), 8).element(), ", should be 7")  
+#
+##-------------------------- Problem 2 tests... --------------------------
+#if (problem2):
+#    bst = BinarySearchTree()
+#    bst.insert(10)
+#    bst.insert(5)
+#    bst.insert(15)
+#    bst.insert(2)
+#    bst.insert(7)
+#    bst.insert(12)
+#    bst.insert(18)
+#    #   10       
+#    #  / \   
+#    # /   \  
+#    # 5   15   
+#    #/ \ / \ 
+#    #2 7 12 18 
+#    print("Testing problem 2 find k-th largest... 3rd largest is")
+#    print(bst.get_kth_largest(3).element(), ", should be 12")
+#    print("Testing problem 2 find k-th largest... 7th largest is")
+#    print(bst.get_kth_largest(7).element(), ", should be 2")
+#    print("Testing problem 2 find k-th largest... 9th largest is")
+#    print(bst.get_kth_largest(9).element(), ", should be 2")
+#
+#
+#
+#if (problem3):
+#    bst = BinarySearchTree()
+#    bst.insert(10)
+#    bst.insert(5)
+#    bst.insert(15)
+#    bst.insert(3)
+#    bst.insert(7)
+#    bst.insert(20)
+#    bst.insert(6)
+#    bst.insert(9)
+#
+#    pos_6 = bst.get_position(6)
+#    pos_9 = bst.get_position(9)
+#    pos_7 = bst.get_position(7)
+#    pos_3 = bst.get_position(3)
+#    pos_20 = bst.get_position(20)
+#    print(bst.LCA(pos_6, pos_9).element(), "    Expected result is 7")
+#    print(bst.LCA(pos_6, pos_7).element(), "    Expected result is 7")
+#    print(bst.LCA(pos_3, pos_20).element(), "    Expected result is 10")
+#
